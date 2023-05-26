@@ -3,8 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,13 +12,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-import javax.swing.WindowConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+
+import model.ModelDienThoai;
 
 public class GUI_QuanLyDienThoai extends JFrame{
     private static final long serialVersionUID = 1L;
@@ -186,9 +183,15 @@ public class GUI_QuanLyDienThoai extends JFrame{
         this.setVisible(true);
     }
     
+    public void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
 
     public JButton getBtn_them() {
 		return btn_them;
+	}
+    public JButton getBtn_tim() {
+		return btn_tim;
 	}
 	public JTextField getTxt_maDThoai() {
 		return txt_maDthoai;
@@ -206,37 +209,19 @@ public class GUI_QuanLyDienThoai extends JFrame{
 		return txt_giaTien;
 	}
 	
-    public void actionPerformed(ActionEvent e) {
-    }
-    
-    public void valueChanged(ListSelectionEvent e) {
-    }
-    
-    public void addAddStudentListener(ActionListener listener) {
-        btn_them.addActionListener(listener);
-    }
-    
-    public void addEdiStudentListener(ActionListener listener) {
-        btn_xoa.addActionListener(listener);
-    }
-    
-    public void addDeleteStudentListener(ActionListener listener) {
-        btn_sua.addActionListener(listener);
-    }
-    
-    public void addClearListener(ActionListener listener) {
-        btn_moi.addActionListener(listener);
-    }
-    
-    public void addSortStudentGPAListener(ActionListener listener) {
-        btn_sapXep1.addActionListener(listener);
-    }
-    
-    public void addSortStudentNameListener(ActionListener listener) {
-        btn_sapXep2.addActionListener(listener);
-    }
-    
-    public void addListStudentSelectionListener(ListSelectionListener listener) {
-        tb_dienThoai.getSelectionModel().addListSelectionListener(listener);
-    }
+	public JTextField getTxt_tim() {
+		return txt_tim;
+	}
+	
+	public void showListDienThoai(List<ModelDienThoai> listDienThoai) {
+		int size = listDienThoai.size();
+        Object [][] dienThoai = new Object[size][4];
+        for (int i = 0; i < size; i++) {
+        	dienThoai[i][0] = listDienThoai.get(i).getMaDienThoai();
+        	dienThoai[i][1] = listDienThoai.get(i).getTenDienThoai();
+        	dienThoai[i][2] = listDienThoai.get(i).getGiaTien();
+        	dienThoai[i][3] = listDienThoai.get(i).getNamSX();
+        }
+        tb_dienThoai.setModel(new DefaultTableModel(dienThoai, columnNames));
+	}
 }

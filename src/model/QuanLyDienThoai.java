@@ -22,8 +22,11 @@ public class QuanLyDienThoai {
 			preparedStmt.setString(2, dt.getTenDienThoai());
 			preparedStmt.setDouble(3, dt.getGiaTien());
 			preparedStmt.setInt(4, dt.getNamSX());
-			Boolean isAdd = preparedStmt.execute();
-			return isAdd;
+			int i = preparedStmt.executeUpdate();
+			if (i > 0) {
+				return true;
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

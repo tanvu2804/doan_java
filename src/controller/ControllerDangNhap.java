@@ -38,8 +38,8 @@ public class ControllerDangNhap {
 	}
 
 	public static void main(String[] args) {	
-		new ControllerQuanLyDienThoai(new GUI_QuanLyDienThoai());
-//		new ControllerDangNhap(new GUI_DangNhap()); 
+//		new ControllerQuanLyDienThoai(new GUI_QuanLyDienThoai());
+		new ControllerDangNhap(new GUI_DangNhap()); 
 	}
 
 }
