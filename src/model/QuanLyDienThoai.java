@@ -67,6 +67,29 @@ public class QuanLyDienThoai {
 		}
 		return false;
 	}
+	
+	public static ArrayList<ModelDienThoai> getTimDienThoai(String kw) throws Exception {
+		// //sử dụng Stored Procedure
+		ArrayList<ModelDienThoai> dsdt = new ArrayList<>();
+		try {
+			Connection con = DataBaseUtil.getConnection();
+			String sql_laydsdt = "SELECT* FROM dienthoai WHERE tendienthoai LIKE ?";
+			PreparedStatement prepared = con.prepareStatement(sql_laydsdt);
+			prepared.setString(1, "%" + kw + "%");
+			
+			ResultSet rs = prepared.executeQuery();
+			while (rs.next()) {
+				String maDT = rs.getString("madienthoai");
+				String tenDT = rs.getString("tendienthoai");
+				int namSX = rs.getInt("namsanxuat");
+				double giaTien = rs.getDouble("giatien");
+				dsdt.add(new ModelDienThoai(maDT, tenDT, namSX, giaTien));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsdt;
+	}
 
 // DOc 
 	public static ArrayList<ModelDienThoai> getDanhSach() throws Exception {
