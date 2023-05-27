@@ -9,8 +9,6 @@ import view.GUI_DangNhap;
 import view.GUI_QuanLyDienThoai;
 
 public class ControllerDangNhap {
-	private GUI_DangNhap formDangNhap;
-	private ModelDangNhap modelDangNhap;
 	GUI_QuanLyDienThoai formQuanLyDienThoai;
 
 	public ControllerDangNhap() {
@@ -18,7 +16,6 @@ public class ControllerDangNhap {
 	}
 
 	public ControllerDangNhap(GUI_DangNhap formDangNhap) {
-		this.formDangNhap = formDangNhap;
 		formDangNhap.getBtn_signin().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

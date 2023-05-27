@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import database.DataBaseUtil;
 
@@ -112,4 +115,35 @@ public class QuanLyDienThoai {
 		}
 		return dsdt;
 	}
+	
+	
+	public static void sortDienThoaiByMa(List<ModelDienThoai> listDienThoai) {
+        Collections.sort(listDienThoai, new Comparator<ModelDienThoai>() {
+            public int compare(ModelDienThoai dienThoai1, ModelDienThoai dienThoai2) {
+                return dienThoai1.getMaDienThoai().compareTo(dienThoai2.getMaDienThoai());
+            }
+        });
+    }
+	
+	public static void sortDienThoaiByTen(List<ModelDienThoai> listDienThoai) {
+        Collections.sort(listDienThoai, new Comparator<ModelDienThoai>() {
+            public int compare(ModelDienThoai dienThoai1, ModelDienThoai dienThoai2) {
+                return dienThoai1.getTenDienThoai().compareTo(dienThoai2.getTenDienThoai());
+            }
+        });
+    }
+	public static void sortDienThoaiByNam(List<ModelDienThoai> listDienThoai) {
+        Collections.sort(listDienThoai, new Comparator<ModelDienThoai>() {
+            public int compare(ModelDienThoai dienThoai1, ModelDienThoai dienThoai2) {
+                return Double.compare(dienThoai1.getNamSX(), dienThoai2.getNamSX());
+            }
+        });
+    }
+	public static void sortDienThoaiByGia(List<ModelDienThoai> listDienThoai) {
+        Collections.sort(listDienThoai, new Comparator<ModelDienThoai>() {
+            public int compare(ModelDienThoai dienThoai1, ModelDienThoai dienThoai2) {
+                return Double.compare(dienThoai1.getGiaTien(), dienThoai2.getGiaTien());
+            }
+        });
+    }
 }

@@ -25,6 +25,7 @@ public class ControllerQuanLyDienThoai {
 		ControllerSuaDienThoai();
 		ControllerXoaDienThoai();
 		controllerTimKiemTheoTen();
+		ControllerSapXep();
 	}
 
 	public void ControllerThemDienThoai() {
@@ -35,28 +36,40 @@ public class ControllerQuanLyDienThoai {
 				String tenDThoai = formQuanLyDienThoai.getTxt_tenDThoai().getText();
 				String giaTien = formQuanLyDienThoai.getTxt_giaTien().getText();
 				String namSX = formQuanLyDienThoai.getTxt_namSX().getText();
-				ModelDienThoai modelDienThoai = new ModelDienThoai(maDThoai, tenDThoai, Integer.parseInt(namSX),
-						Double.parseDouble(giaTien));
 
-				List<ModelDienThoai> result = listDienThoai.stream()
-						.filter(item -> item.getMaDienThoai().equals(maDThoai)).collect(Collectors.toList());
-				if (result.size() == 0) {
-					try {
-						Boolean isThemDienThoai = QuanLyDienThoai.themDienThoai(modelDienThoai);
-						if (isThemDienThoai) {
-							formQuanLyDienThoai.showMessage("thêm thành công");
-							showListDienThoai();
-						} else {
-							formQuanLyDienThoai.showMessage("lỗi");
-						}
-
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
+				if (maDThoai == null || maDThoai.length() == 0) {
+					formQuanLyDienThoai.showMessage("Vui lòng nhập mã điện thoại");
+				} else if (tenDThoai == null || tenDThoai.length() == 0) {
+					formQuanLyDienThoai.showMessage("Vui lòng nhập tên điện thoại");
+				} else if (giaTien == null || giaTien.length() == 0) {
+					formQuanLyDienThoai.showMessage("Vui lòng nhập giá tiền");
+				} else if (namSX == null || namSX.length() == 0) {
+					formQuanLyDienThoai.showMessage("Vui lòng nhập năm sản xuất");
+				}else if (giaTien == null || giaTien.length() == 0) {
+					formQuanLyDienThoai.showMessage("Vui lòng nhập giá tiền");
 				} else {
-					formQuanLyDienThoai.showMessage("mã trùng");
-				}
+					ModelDienThoai modelDienThoai = new ModelDienThoai(maDThoai, tenDThoai, Integer.parseInt(namSX),
+							Double.parseDouble(giaTien));
 
+					List<ModelDienThoai> result = listDienThoai.stream()
+							.filter(item -> item.getMaDienThoai().equals(maDThoai)).collect(Collectors.toList());
+					if (result.size() == 0) {
+						try {
+							Boolean isThemDienThoai = QuanLyDienThoai.themDienThoai(modelDienThoai);
+							if (isThemDienThoai) {
+								formQuanLyDienThoai.showMessage("Thêm thành công");
+								showListDienThoai();
+							} else {
+								formQuanLyDienThoai.showMessage("Lỗi");
+							}
+
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					} else {
+						formQuanLyDienThoai.showMessage("Mã điện thoại trùng");
+					}
+				}
 			}
 		});
 	}
@@ -74,10 +87,10 @@ public class ControllerQuanLyDienThoai {
 				try {
 					Boolean isSuaDienThoai = QuanLyDienThoai.suaDienThoai(modelDienThoai);
 					if (isSuaDienThoai) {
-						formQuanLyDienThoai.showMessage("sửa thành công");
+						formQuanLyDienThoai.showMessage("Sửa thành công");
 						showListDienThoai();
 					} else {
-						formQuanLyDienThoai.showMessage("lỗi");
+						formQuanLyDienThoai.showMessage("Lỗi");
 					}
 
 				} catch (Exception e1) {
@@ -96,14 +109,46 @@ public class ControllerQuanLyDienThoai {
 				try {
 					Boolean isSuaDienThoai = QuanLyDienThoai.xoaDienThoai(maDThoai);
 					if (isSuaDienThoai) {
-						formQuanLyDienThoai.showMessage("xóa thành công");
+						formQuanLyDienThoai.showMessage("Xóa thành công");
+						formQuanLyDienThoai.getTxt_maDThoai().setText("");
+						formQuanLyDienThoai.getTxt_tenDThoai().setText("");
+						formQuanLyDienThoai.getTxt_namSX().setText("");
+						formQuanLyDienThoai.getTxt_giaTien().setText("");
+						// disable Edit and Delete buttons
+						formQuanLyDienThoai.getBtn_sua().setEnabled(false);
+						formQuanLyDienThoai.getBtn_xoa().setEnabled(false);
+						// enable Add button
+						formQuanLyDienThoai.getBtn_them().setEnabled(true);
+						formQuanLyDienThoai.getTxt_maDThoai().setEnabled(true);
 						showListDienThoai();
 					} else {
-						formQuanLyDienThoai.showMessage("lỗi");
+						formQuanLyDienThoai.showMessage("Lỗi");
 					}
 
 				} catch (Exception e1) {
 					e1.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public void ControllerSapXep() {
+		formQuanLyDienThoai.getBtn_sapXep().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int sapXep = formQuanLyDienThoai.getCb_sapXep().getSelectedIndex();
+				if (sapXep == 0) {
+					QuanLyDienThoai.sortDienThoaiByMa(listDienThoai);
+					formQuanLyDienThoai.showListDienThoai(listDienThoai);
+				} else if (sapXep == 1) {
+					QuanLyDienThoai.sortDienThoaiByTen(listDienThoai);
+					formQuanLyDienThoai.showListDienThoai(listDienThoai);
+				} else if (sapXep == 2) {
+					QuanLyDienThoai.sortDienThoaiByNam(listDienThoai);
+					formQuanLyDienThoai.showListDienThoai(listDienThoai);
+				} else if (sapXep == 3) {
+					QuanLyDienThoai.sortDienThoaiByGia(listDienThoai);
+					formQuanLyDienThoai.showListDienThoai(listDienThoai);
 				}
 			}
 		});
